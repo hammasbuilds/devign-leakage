@@ -11,8 +11,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/hammas159/devign-leakage/actions/workflows/ci.yml"><img src="https://github.com/hammas159/devign-leakage/actions/workflows/ci.yml/badge.svg" alt="ci"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/hammas159/devign-leakage" alt="license"></a>
+  <a href="https://github.com/hammasbuilds/devign-leakage/actions/workflows/ci.yml"><img src="https://github.com/hammasbuilds/devign-leakage/actions/workflows/ci.yml/badge.svg" alt="ci"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/hammasbuilds/devign-leakage" alt="license"></a>
   <img src="https://img.shields.io/badge/python-3.11%2B-blue" alt="python">
   <img src="https://img.shields.io/badge/tests-19%20passing-brightgreen" alt="tests">
   <img src="https://img.shields.io/badge/data-Devign%20%2F%20CodeXGLUE-orange" alt="data">
