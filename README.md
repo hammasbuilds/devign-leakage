@@ -68,6 +68,40 @@ benchmark's reporting mentions.
 
 ---
 
+## And a benchmark nobody can beat by reading code
+
+The leakage above is real but small. That raises the obvious follow-up: if the dataset is
+mostly clean, what do the published numbers on it actually mean?
+
+Devign's test split is 1477 safe to 1255 vulnerable, so **answering SAFE every time and
+reading nothing scores 50.4%** on a sample of 800. Published accuracies cluster near 62%.
+That is eight points of headroom.
+
+`qwen2.5-coder:14b`, asked one C function at a time, temperature 0:
+
+```
+accuracy            50.0%        <- the model
+majority baseline   50.4%        <- a constant answer
+difference          -0.4%
+
+confusion: tp 220  tn 180  fp 217  fn 183
+```
+
+**It is 0.4 points below a constant.** The confusion matrix shows why: it answered
+VULNERABLE 437 times out of 800, against a true rate of 50.4%, and got them right at
+close to the rate you would expect from a coin. It is not detecting vulnerabilities and
+failing to be accurate - it is not detecting them at all.
+
+Removing the conflicting-label rows moves accuracy by +0.1%, which settles the other
+question this repo raised: the label noise is **real but far too rare to explain anyone's
+number**. That matters because "the dataset is noisy" is the convenient excuse, and it does
+not hold.
+
+None of this says a fine-tuned classifier cannot beat the baseline - published ones do,
+narrowly. It says a general-purpose coder model prompted for the task performs at chance,
+and that a benchmark with eight points of headroom is a place where small reported gains
+deserve a majority-baseline column next to them.
+
 ## How it works
 
 ```mermaid
