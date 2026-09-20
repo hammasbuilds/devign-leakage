@@ -38,7 +38,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from leakage import digest, load, normalise_exact, normalise_structural  # noqa: E402
+from leakage import digest, load, normalise_exact, normalise_structural
 
 OLLAMA = "http://localhost:11434"
 OUT = Path(__file__).resolve().parent.parent / "results"
