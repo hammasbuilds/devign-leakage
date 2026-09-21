@@ -38,13 +38,14 @@ This measures both, and keeps them apart, because they have different consequenc
 
 ## The result
 
-`validation` &rarr; `test`, 2,732 rows each:
+`train` &rarr; `test` - the comparison that decides whether a Devign score means anything.
+21,854 training rows against 2,732 test rows:
 
 | | exact | structural |
 |---|---:|---:|
-| test rows also in validation | **1 (0.04%)** | **27 (0.99%)** |
-| ...same label (leakage) | 0 | 22 |
-| ...opposite label (noise) | 1 | 5 |
+| test rows also present in train | **10 (0.37%)** | **192 (7.03%)** |
+| ...same label (leakage) | 2 | **152** |
+| ...opposite label (noise) | 8 | 51 |
 
 Duplicates **within** the test split itself:
 
@@ -53,16 +54,23 @@ Duplicates **within** the test split itself:
 | exact | 4 (0.15%) | **4 - all of them** |
 | structural | 31 (1.13%) | 12 (0.44%) |
 
-### Two findings, one of them negative
+### The number was seven times smaller when measured against the wrong split
 
-**Cross-split overlap is low.** At 0.04% exact and 0.99% structural, reported Devign scores
-are not obviously inflated by copying between splits. **That runs against the assumption
-this repo started from**, and it is reported as it came out.
+An earlier version of this repo could not download the 17.85 MB train split and reported
+`validation` &rarr; `test` instead, where structural overlap is **0.99%**. It concluded that
+cross-split overlap was low and that Devign scores were probably not inflated.
 
-**But the duplicates that exist are labelled inconsistently.** Every one of the four exact
-duplicate pairs in the test split carries opposite labels. Whatever a model predicts, it is
-scored wrong on one copy of each pair - a small ceiling below 100% that nothing in the
-benchmark's reporting mentions.
+Against the split models are actually trained on, structural overlap is **7.03%** - and 152
+test rows are structural duplicates of a training row *carrying the same label*. Those are
+free marks: a model that memorises them scores on 5.6% of the test set without generalising
+at all.
+
+The earlier conclusion was not a wrong reading of the data. It was the right reading of the
+wrong pair, which is worse, because nobody trains on the validation split.
+
+**The inconsistent labelling holds up.** Every one of the four exact duplicate pairs inside
+the test split carries opposite labels, so whatever a model predicts it is scored wrong on
+one copy of each pair - a ceiling below 100% that the benchmark's reporting does not mention.
 
 &#128202; **[Full tables, both splits, every level &rarr;](docs/RESULTS.md)**
 
@@ -130,25 +138,21 @@ collapse into each other - only naming and constants are erased.
 
 ## &#9888; What this repo does NOT measure
 
-**train &rarr; test is not measured here.** That is the comparison that matters most, and
-it is missing: the 17.85 MB train split would not download - two attempts produced 0-byte
-files while the connection was saturated.
+**The `detect.py` arm is still 800 rows, not the full test split.** Classifying all 2,732
+would take roughly four GPU-hours on this machine and has not been run.
 
-The code path exists and is tested. Once the split is available:
-
-```bash
-python src/leakage.py train test
-```
-
-Treat every number above as `validation` &harr; `test` only.
+**Only two normalisation levels.** Exact and structural. A semantic level - renaming
+variables, reordering independent statements - would find more overlap, and its absence
+means 7.03% is a floor rather than an estimate.
 
 ---
 
 ## Run it
 
 ```bash
-python src/leakage.py validation test   # the numbers above
-python src/leakage.py train test        # once the train split is available
+python src/leakage.py train test        # the numbers above
+python src/report.py  train test        # and write them to results/
+python src/leakage.py validation test   # the earlier, smaller comparison
 pytest -q                               # 19 tests, no dataset, no network
 ```
 

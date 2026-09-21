@@ -1,0 +1,45 @@
+{
+  "pair": "train->test",
+  "rows": {
+    "train": 21854,
+    "test": 2732
+  },
+  "label_dist": {
+    "train": {
+      "False": 11836,
+      "True": 10018
+    },
+    "test": {
+      "False": 1477,
+      "True": 1255
+    }
+  },
+  "cross": {
+    "exact": {
+      "matched": 10,
+      "share": 0.0036603221083455345,
+      "same_label": 2,
+      "conflicting": 8
+    },
+    "structural": {
+      "matched": 192,
+      "share": 0.07027818448023426,
+      "same_label": 152,
+      "conflicting": 51
+    }
+  },
+  "internal": {
+    "exact": {
+      "test": {
+        "duplicate_rows": 4,
+        "conflicting_rows": 4
+      }
+    },
+    "structural": {
+      "test": {
+        "duplicate_rows": 31,
+        "conflicting_rows": 12
+      }
+    }
+  }
+}

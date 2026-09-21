@@ -111,7 +111,10 @@ def score(pairs) -> dict:
         "precision": prec,
         "recall": rec,
         "f1": 2 * prec * rec / (prec + rec) if prec + rec else 0.0,
-        "tp": tp, "tn": tn, "fp": fp, "fn": fn,
+        "tp": tp,
+        "tn": tn,
+        "fp": fp,
+        "fn": fn,
     }
 
 
@@ -150,13 +153,13 @@ def main() -> int:
             preds[i] = p
         if n % 50 == 0 or n == take:
             rate = (time.time() - t0) / n
-            print(f"  {n}/{take}  {rate:.1f}s each  eta {rate * (take - n) / 60:.0f} min", flush=True)
+            print(
+                f"  {n}/{take}  {rate:.1f}s each  eta {rate * (take - n) / 60:.0f} min", flush=True
+            )
 
     full = [(preds[i], bool(frame["target"].iloc[i])) for i in idxs if i in preds]
     clean = [
-        (preds[i], bool(frame["target"].iloc[i]))
-        for i in idxs
-        if i in preds and i not in conflict
+        (preds[i], bool(frame["target"].iloc[i])) for i in idxs if i in preds and i not in conflict
     ]
     if not full:
         print("no parsable predictions")
