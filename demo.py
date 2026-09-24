@@ -46,15 +46,19 @@ def from_committed_results() -> int:
 
 
 def main() -> int:
-    print("devign-leakage: how much of Devign's test set is already in its training set?",
-          flush=True)
+    print(
+        "devign-leakage: how much of Devign's test set is already in its training set?", flush=True
+    )
     print(flush=True)
 
     env = {**os.environ, "PYTHONIOENCODING": "utf-8"}
     try:
         result = subprocess.run(
             [sys.executable, "src/leakage.py", "train", "test"],
-            cwd=ROOT, env=env, check=False, timeout=1800,
+            cwd=ROOT,
+            env=env,
+            check=False,
+            timeout=1800,
         )
     except (OSError, subprocess.TimeoutExpired):
         return from_committed_results()
@@ -63,20 +67,14 @@ def main() -> int:
         return from_committed_results()
 
     print(flush=True)
-    print("The exact figure is what a byte-comparison finds. The structural figure",
-          flush=True)
-    print("counts the same function written with different identifier names, which",
-          flush=True)
-    print("is what a model actually sees - and it is an order of magnitude larger.",
-          flush=True)
+    print("The exact figure is what a byte-comparison finds. The structural figure", flush=True)
+    print("counts the same function written with different identifier names, which", flush=True)
+    print("is what a model actually sees - and it is an order of magnitude larger.", flush=True)
     print(flush=True)
-    print("Rows whose duplicate carries the OPPOSITE label are worse than leakage:",
-          flush=True)
-    print("they are unlearnable, and they cap the accuracy anything can reach here.",
-          flush=True)
+    print("Rows whose duplicate carries the OPPOSITE label are worse than leakage:", flush=True)
+    print("they are unlearnable, and they cap the accuracy anything can reach here.", flush=True)
     print(flush=True)
-    print("Full write-up: docs/RESULTS.md, docs/METHOD.md, docs/LIMITATIONS.md",
-          flush=True)
+    print("Full write-up: docs/RESULTS.md, docs/METHOD.md, docs/LIMITATIONS.md", flush=True)
     return 0
 
 
