@@ -36,7 +36,7 @@ This measures both, and keeps them apart, because they have different consequenc
 
 ---
 
-## The result
+## Results
 
 `train` &rarr; `test` - the comparison that decides whether a Devign score means anything.
 21,854 training rows against 2,732 test rows:
@@ -54,7 +54,7 @@ Duplicates **within** the test split itself:
 | exact | 4 (0.15%) | **4 - all of them** |
 | structural | 31 (1.13%) | 12 (0.44%) |
 
-### The number was seven times smaller when measured against the wrong split
+### Measured against a random split instead
 
 An earlier version of this repo could not download the 17.85 MB train split and reported
 `validation` &rarr; `test` instead, where structural overlap is **0.99%**. It concluded that
@@ -136,7 +136,7 @@ collapse into each other - only naming and constants are erased.
 
 ---
 
-## &#9888; What this repo does NOT measure
+## Scope
 
 **The `detect.py` arm is still 800 rows, not the full test split.** Classifying all 2,732
 would take roughly four GPU-hours on this machine and has not been run.
